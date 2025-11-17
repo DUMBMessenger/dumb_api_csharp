@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>Dumb API C# Client</Title>
     <PackageId>dumb_api_csharp</PackageId>
-    <Authors>Your Name</Authors>
+    <Authors>DUMB Team</Authors>
     <Description>C# client library for Dumb Messenger API</Description>
     <PackageVersion>1.0.0</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
