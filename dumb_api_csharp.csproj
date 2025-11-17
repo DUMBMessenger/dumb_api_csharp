@@ -11,7 +11,7 @@
     <Description>C# client library for Dumb Messenger API</Description>
     <PackageVersion>1.0.0</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/yourusername/dumb_api_csharp</RepositoryUrl>
+    <RepositoryUrl>https://github.com/DUMBMessenger/dumb_api_csharp</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
