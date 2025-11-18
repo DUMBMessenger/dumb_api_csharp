@@ -14,6 +14,7 @@ namespace dumb_api_csharp
         public string Name { get; set; }
         
         [JsonPropertyName("customId")]
+        [JsonConverter(typeof(NullableStringConverter))]
         public string CustomId { get; set; }
         
         [JsonPropertyName("memberCount")]
