@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace dumb_api_csharp
 {
     /// <summary>
-    /// Custom JSON converter that handles nullable values that might come as numbers, null, or strings
+    /// Custom JSON converter that handles nullable values that might come as numbers, null, strings, or booleans
     /// </summary>
     public class NullableStringConverter : JsonConverter<string>
     {
@@ -15,10 +15,10 @@ namespace dumb_api_csharp
             {
                 case JsonTokenType.Null:
                     return null;
-
+                
                 case JsonTokenType.String:
                     return reader.GetString();
-
+                
                 case JsonTokenType.Number:
                     // If it's a number, convert it to string
                     if (reader.TryGetInt64(out long longValue))
@@ -30,7 +30,13 @@ namespace dumb_api_csharp
                         return doubleValue.ToString();
                     }
                     return reader.GetString();
-
+                
+                case JsonTokenType.True:
+                    return "true";
+                
+                case JsonTokenType.False:
+                    return "false";
+                
                 default:
                     throw new JsonException($"Unexpected token type '{reader.TokenType}' when parsing nullable string.");
             }
