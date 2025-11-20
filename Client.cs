@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -201,6 +202,7 @@ namespace dumb_api_csharp
             using var content = new MultipartFormDataContent();
             using var fileContent = new StreamContent(fileStream);
             
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(filePath));
             content.Add(fileContent, "avatar", Path.GetFileName(filePath));
             return await PostMultipartAsync<UploadResponse>("/api/upload/avatar", content);
         }
@@ -211,6 +213,7 @@ namespace dumb_api_csharp
             using var content = new MultipartFormDataContent();
             using var fileContent = new StreamContent(fileStream);
             
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue(GetMimeType(filePath));
             content.Add(fileContent, "file", Path.GetFileName(filePath));
             return await PostMultipartAsync<FileUploadResponse>("/api/upload/file", content);
         }
@@ -225,7 +228,7 @@ namespace dumb_api_csharp
         {
             using var content = new MultipartFormDataContent();
             using var voiceContent = new ByteArrayContent(voiceData);
-            voiceContent.Headers.Add("Content-Type", "audio/ogg");
+            voiceContent.Headers.ContentType = new MediaTypeHeaderValue("audio/ogg");
             
             content.Add(voiceContent, "voice", "voice.ogg");
             return await PostMultipartAsync($"/api/upload/voice/{voiceId}", content);
@@ -247,6 +250,30 @@ namespace dumb_api_csharp
                 return await response.Content.ReadAsStreamAsync();
             
             return null;
+        }
+
+        private static string GetMimeType(string filePath)
+        {
+            var ext = Path.GetExtension(filePath).ToLowerInvariant();
+            return ext switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+                ".webp" => "image/webp",
+                ".pdf" => "application/pdf",
+                ".doc" => "application/msword",
+                ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ".txt" => "text/plain",
+                ".mp4" => "video/mp4",
+                ".avi" => "video/x-msvideo",
+                ".mkv" => "video/x-matroska",
+                ".mov" => "video/quicktime",
+                ".mp3" => "audio/mpeg",
+                ".wav" => "audio/wav",
+                _ => "application/octet-stream"
+            };
         }
 
         #endregion
@@ -408,7 +435,6 @@ namespace dumb_api_csharp
             }
             catch (Exception ex)
             {
-                // Log parsing error
                 System.Diagnostics.Debug.WriteLine($"Error parsing WebSocket message: {ex.Message}");
             }
         }
