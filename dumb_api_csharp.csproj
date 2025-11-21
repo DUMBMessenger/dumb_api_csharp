@@ -9,7 +9,7 @@
     <PackageId>dumb_api_csharp</PackageId>
     <Authors>DUMB Team</Authors>
     <Description>C# client library for Dumb Messenger API</Description>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/DUMBMessenger/dumb_api_csharp</RepositoryUrl>
   </PropertyGroup>
